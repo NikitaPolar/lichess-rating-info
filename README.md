@@ -1,5 +1,5 @@
 # Lichess Rating Info
-Displays information about opponent's rating.<br><br>
+Displays information about opponent's rating. (Highest rating, win rate and games count)<br><br>
 ![Demonstration image](https://nikitapolar.com/git/lichess-rating-info/image1.png)
 
 
