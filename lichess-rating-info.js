@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lichess rating info
-// @version      0.1
+// @version      0.1.1
 // @description  Displays information about opponent's rating.
 // @author       NikitaPolar
 // @include      /^https://lichess\.org/([a-zA-Z0-9]{7,12})
@@ -30,8 +30,8 @@
         $('div.players .player a.user_link').each(function() {
             if ($(this).attr('href').indexOf(username) == -1) {
                 $.get('https://lichess.org'+$(this).attr('href')+'/perf/'+type, function(htmlstr) {
-                    var infostr = htmlstr.match(/data: (.*)\}/);
-                    var info = JSON.parse(infostr[1]+'}');
+                    var infostr = htmlstr.match(/data: (.*\})/);
+                    var info = JSON.parse(infostr[1]);
                     if (info != undefined) {
                         var WR = ~~((info.stat.count.win/info.stat.count.all)*100);
                         $(".username.user_link:first").after('<div class="username user_link" style="text-align:center;display: block;margin-bottom: 7px;"><rating>Max: '+info.stat.highest.int+', WR: '+WR+'%, G: '+info.stat.count.all+'</rating></div>');
