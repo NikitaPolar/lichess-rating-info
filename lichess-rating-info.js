@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lichess rating info
-// @version      0.1.1
+// @version      0.1.2
 // @description  Displays information about opponent's rating.
 // @author       NikitaPolar
 // @include      /^https://lichess\.org/([a-zA-Z0-9]{7,12})
@@ -13,7 +13,7 @@
     var loadfunction = window.onload;
     window.onload = function(event){
         var username = $('#user_tag').text();
-        var type = $('span.hint--top, a.hint--top.variant-link').text();
+        var type = $('span.hint--top, a.hint--top.variant-link').last().text();
         switch(type) {
             case 'KING OF THE HILL':
                 type = 'kingOfTheHill';
@@ -34,7 +34,12 @@
                     var info = JSON.parse(infostr[1]);
                     if (info != undefined) {
                         var WR = ~~((info.stat.count.win/info.stat.count.all)*100);
-                        $(".username.user_link:first").after('<div class="username user_link" style="text-align:center;display: block;margin-bottom: 7px;"><rating>Max: '+info.stat.highest.int+', WR: '+WR+'%, G: '+info.stat.count.all+'</rating></div>');
+                        try {
+                            var highest = info.stat.highest.int;
+                        } catch (exception) {
+                            var highest = '—';
+                        }
+                        $(".username.user_link:first").after('<div class="username user_link" style="text-align:center;display: block;margin-bottom: 7px;"><rating>Max: '+highest+', WR: '+WR+'%, G: '+info.stat.count.all+'</rating></div>');
                     }
                 });
                 return false;
